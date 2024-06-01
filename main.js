@@ -1,44 +1,60 @@
-// scripts.js
-document.addEventListener("DOMContentLoaded", () => {
-    let tabCount = 1;
-    const tabList = document.querySelector('.tab-list');
-    const tabContent = document.querySelector('.tab-content');
-    const addTabButton = document.querySelector('.add-tab');
-    const addTitleButton = document.querySelector('.add-title');
-    const titleList = document.querySelector('.title-list');
+// script.js
 
-    addTabButton.addEventListener('click', () => {
-        tabCount++;
-        const newTab = document.createElement('div');
-        newTab.classList.add('tab');
-        newTab.textContent = `Tab ${tabCount}`;
-        newTab.addEventListener('click', () => {
-            tabContent.textContent = `Content for Tab ${tabCount}`;
-        });
-        tabList.insertBefore(newTab, addTabButton);
-    });
+let tabCount = 1;
+let titleCount = 1;
 
-    addTitleButton.addEventListener('click', () => {
-        const title = prompt('Enter title:');
-        if (title) {
-            const titleElement = document.createElement('div');
-            titleElement.classList.add('title');
-            titleElement.textContent = title;
+function openTab(evt, tabName) {
+    const tabContents = document.getElementsByClassName("tab-content");
+    for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].style.display = "none";
+    }
+    
+    const tabs = document.getElementsByClassName("tab");
+    for (let i = 0; i < tabs.length; i++) {
+        tabs[i].className = tabs[i].className.replace(" active", "");
+    }
+    
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
 
-            const addSubtitleButton = document.createElement('button');
-            addSubtitleButton.textContent = 'Add Subtitle';
-            addSubtitleButton.addEventListener('click', () => {
-                const subtitle = prompt('Enter subtitle:');
-                if (subtitle) {
-                    const subtitleElement = document.createElement('div');
-                    subtitleElement.classList.add('subtitle');
-                    subtitleElement.textContent = subtitle;
-                    titleElement.appendChild(subtitleElement);
-                }
-            });
+function addTab() {
+    tabCount++;
+    const newTab = document.createElement("div");
+    newTab.className = "tab";
+    newTab.innerHTML = `Tab ${tabCount}`;
+    newTab.setAttribute("onclick", `openTab(event, 'tab-${tabCount}')`);
+    
+    document.getElementById("add-tab").insertAdjacentElement('beforebegin', newTab);
+    
+    const newTabContent = document.createElement("div");
+    newTabContent.className = "tab-content";
+    newTabContent.id = `tab-${tabCount}`;
+    newTabContent.innerHTML = `<h2>Content for Tab ${tabCount}</h2>`;
+    
+    document.querySelector(".content-pane").appendChild(newTabContent);
+}
 
-            titleElement.appendChild(addSubtitleButton);
-            titleList.appendChild(titleElement);
-        }
-    });
-});
+function addTitle() {
+    titleCount++;
+    const newTitle = document.createElement("li");
+    newTitle.innerHTML = `Title ${titleCount}`;
+    newTitle.setAttribute("onclick", `addSubtitle(this)`);
+    
+    document.getElementById("title-list").appendChild(newTitle);
+}
+
+function addSubtitle(titleElement) {
+    const subtitleCount = titleElement.querySelectorAll('ul li').length + 1;
+    
+    if (!titleElement.querySelector('ul')) {
+        const subtitleList = document.createElement("ul");
+        titleElement.appendChild(subtitleList);
+    }
+    
+    const subtitleList = titleElement.querySelector('ul');
+    const newSubtitle = document.createElement("li");
+    newSubtitle.innerHTML = `Subtitle ${subtitleCount}`;
+    
+    subtitleList.appendChild(newSubtitle);
+}
