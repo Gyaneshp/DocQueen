@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Tabs and Sidebar</title>
+    <title>Dynamic Documentation</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="tabs">
-            <div class="tab-list">
-                <div class="tab">Tab 1</div>
-                <div class="add-tab">+</div>
-            </div>
-            <div class="tab-content">
-                Content for Tab 1
-            </div>
+            <div class="tab" onclick="openTab(event, 'tab-1')">Tab 1</div>
+            <div class="tab" id="add-tab" onclick="addTab()">+</div>
         </div>
-        <div class="sidebar">
-            <button class="add-title">Add Title</button>
-            <div class="title-list">
-                <!-- Titles will be added here -->
+        <div class="left-pane">
+            <ul id="title-list">
+                <li onclick="addTitle()">Add Title</li>
+            </ul>
+        </div>
+        <div class="content-pane">
+            <div id="tab-1" class="tab-content">
+                <h2>Content for Tab 1</h2>
             </div>
         </div>
     </div>
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
